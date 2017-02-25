@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<title>Bizprout</title>
+
+<!-- <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="css/custom-styles.css" />
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+	rel="stylesheet">
+font-family: 'Montserrat', sans-serif;
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i"
+	rel="stylesheet">
+font-family: 'Open Sans', sans-serif; -->
+
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- <script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	
+	
+	<script type="text/javascript">
+		$(function(){
+			$("#login").on('click', function(){
+				
+				var username=$.trim($("#username").val()); 
+				var passwords=$.trim($("#password").val());
+				
+				if((username=="") || (passwords==""))
+				{
+					alert("Please Enter the PIN and Password."); 
+					return false;
+				}
+				
+				$.ajax({
+					type: "GET",
+					url: "REST/Login/check",
+					data: {"name": username,"word":passwords},
+					dataType:"json",
+					success: function(data){
+						if(data.Error=="Not Available")
+						{
+							alert("Username or password does not Exists.");
+							return false;
+						}
+						
+						if(data.Mysql=="Error")
+						{
+							alert("Error: Cannot Connect to Database.");
+							return false;
+						}
+						
+						if((data.super_admin_type=="1" || data.super_admin_type=="0") && data.user_type=="0")
+						{
+							window.location="company_master.html";
+						}
+						
+						if(data.super_admin_type=="2" && (data.user_type=="1" || data.user_type=="2" || data.user_type=="3" || data.user_type=="4"))
+						{
+							window.location="landingpage.html";
+						}						
+					}
+				});
+				return false;
+			});
+			
+		});
+	</script>
+ -->
+</head>
+<body>
+
+	<!--Header starts here-->
+<!-- 	<nav class="navbar-wrapper navbar-default navbar-fixed-top"
+		role="navigation">
+		<div class="headers">
+						<div class="logo">
+				<a target="_blank" href="http://www.bizprout.com"><img
+					src="img/logo.jpg" alt="Bizprout Logo" /></a>
+			</div>
+
+			<div id="menu">
+				<div class="menu-button closed" title="Menu">
+					<span class="menu-bar first"></span> <span class="menu-bar second"></span>
+					<span class="menu-bar third"></span>
+				</div>
+
+				<div class="static-menu-button" title="Menu"
+					onclick="$(this).hide();
+                            $('.menu-button').click();">
+					<span class="menu-bar first"></span> <span class="menu-bar second"></span>
+					<span class="menu-bar third"></span>
+				</div>
+
+
+								<div class="menu-list collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class=""><a href="javascript:void(0)">Payroll</a></li>
+						<li class=""><a href="javascript:void(0)">Accounting</a></li>
+						<li class=""><a href="javascript:void(0)">Consulting</a></li>
+						<li class="compliance"><a href="javascript:void(0)">Compliance</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</nav>
+ -->
+ 
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+ 
+ <script>
+var app = angular.module('bizapp', []);
+
+app.controller('landcont', function($location, $scope, $http, $window){
+	
+	$scope.error = $location.search().Err;
+	
+	if($scope.error==1)
+	{
+		alert("Not a Valid User");	
+	}	
+	
+});
+</script>
+
+	<div class="dashboard-page" ng-app="bizapp" ng-controller="landcont">
+
+		<div class="right">
+			<br> <br> <br> <br> <br> <br>
+			<div class="login-section" align="Center" ng-app="">
+
+				<form action="webapi/login/validate" method="POST">
+					<div class="">
+
+						<div class="title">
+							<u>Login</u>
+						</div>
+						<br>
+						<div class="clearfix"></div>
+
+						Username &nbsp;&nbsp;<input type="text" name="username"
+							id="username" ng-model="username" ng-required="true"><br>
+						<br> Password &nbsp;&nbsp;<input type="password"
+							name="password" id="password" ng-model="password"
+							ng-required="true"><br> <br> <br>
+
+						<div class="link">
+							<input type="Submit" Value="Login" ng-click="alrt()"/>
+								 <input type="Reset" Value="Reset " />
+						</div>
+						<br> <a href="forgotpassword.html">Forgot Password?</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

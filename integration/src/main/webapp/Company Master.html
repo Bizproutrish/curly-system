@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Company</title>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<!-- <script type="text/javascript">
+$(document).ready(function () {
+$.ajax({ 
+    type: 'GET', 
+    url	: 'webapi/company', 
+   /*  data: { get_param: 'value' },  */
+    dataType: 'json',
+    
+    success: function (data) {
+        $.each(data, function(index, element) {
+        	alert(element.active_status);
+            $('#test').append($('<div>', {
+                text: element.company_name
+            }));
+        });
+    }
+});
+});
+</script> -->
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $http({
+    method : "GET",
+    url : "webapi/company"
+  }).then(function mySucces(response) {
+	  $scope.cmpdata = response.data;
+    }, function myError(response) {
+      $scope.cmpdata= response.statusText;
+  });
+});
+
+</script> 
+
+
+<script>
+var app = angular.module('dbsData', []);
+app.controller('dbsCtrl', function($scope, $http) {
+  $http({
+    method : "GET",
+    url : "webapi/company/databases"
+  }).then(function mySucces(response) {
+	  $scope.cmpdb = response.data;
+    }, function myError(response) {
+      $scope.cmpdb= response.statusText;
+  });
+  $http({
+	    method : "GET",
+	    url : "webapi/company/apps"
+	  }).then(function mySucces(response) {
+		  $scope.apps= response.data;
+		  }, function myError(response) {
+	      $scope.apps= response.statusText;
+	  });
+});
+
+</script> 
+
+<script>
+var app = angular.module('AppsData', []);
+app.controller('AppsCtrl', function($scope, $http) {
+  $http({
+    method : "GET",
+    url : "webapi/company/apps"
+  }).then(function mySucces(response) {
+	  $scope.apps= response.data;
+	  }, function myError(response) {
+      $scope.apps= response.statusText;
+  });
+});
+
+</script> 
+
+<script type="text/javascript">
+/* 	var frm = $('#CmpApps');
+    frm.submit(function (ev) {
+	
+    /* function getTableData(table) { 
+    var data = [];
+    table.find('tr').each(function (rowIndex, r) {
+        var cols = [];
+        $(this).find('th,td').each(function (colIndex, c) {
+            cols.push(c.textContent);
+        });
+        data.push(cols);
+    });
+    return data;
+    alert(data);
+/* } 
+    }); */
+    
+    $(function(){
+    	
+    	$("#CmpApps").on('submit', function(){
+    		var cmpappsdata;
+    	    cmpappsdata = (JSON.stringify($("#CmpApps").serializeArray()));
+    	    alert(cmpappsdata);
+    	    /* $.ajax({
+    	        type 	: "POST",
+    	        data 	: { 'get_param': cmpappsdata }, 
+    	        url 	: "webapi/cmpapps/create",
+    	        dataType: "json",
+    	        success: function(){
+    	        	alert(cmpappsdata);
+    	        	}
+    	        
+    	      }); */
+    	    
+//     	    alert(cmpappsdata);/* (JSON.stringify($("#CmpApps").serializeArray())); */
+    	});
+    	
+    });
+    
+    
+</script>
+
+</head>
+<body>
+<!-- <div ng-app="myApp" ng-controller="myCtrl"> --> 
+
+<!-- </div> -->
+	
+	<div align="center">
+		<div class="title">
+			<u> Company Master Setup </u>
+		</div>
+		<br>
+		<form action="webapi/company/addcmp" method="post">
+		<div>
+			Company Code <input type="text" id="cmp_id" name="cmp_id" maxlength="5" required/><br><br>
+			Company Name <input type="text" id="cmp_name" name="cmp_name" required/><br><br>
+			Login Username Logic <select id="cmp_login" name="cmp_login" >
+			<option value="0" selected="yes">Auto Create</option>
+			<option value="1" >Email-Ids</option>
+			<option value="2" >Company Code and Emp ID</option>
+			</select>
+		</div>
+		<br><br>
+		<input type="submit" value="Submit" />
+		<input type="reset" value="Reset" />
+		</form>
+		<br><br><br>
+		<!-- id=CmpApps>  -->
+		<form  method="post" action="webapi/cmpapps/create">
+		<div ng-app = "dbsData" ng-controller = "dbsCtrl">
+		<table border="1" align="center" id="tab"> 
+		<tr>Applications: </tr>
+			<tr>
+				<td>Application Name</td>
+				<td>Application URL</td>
+				<td>Database Name</td>
+				<td>Bizprout Admin Email ID</td>
+				<td>Active From</td>
+				<td>Active to</td>
+				<td>MAC Required</td>
+				<td>IP Required</td>
+				<td>Under Maintenance</td>
+				<td>Status</td>
+			</tr>
+			<tr ng-repeat = "app in apps"> 	
+				<td><input type="text" name="app_name" id="app_name" value="{{app.app_Name}}" style="width:100px;" readonly="readonly"/>
+					<input type="hidden" name="app_id" id="app_id" value="{{app.app_Id}}" style="width:100px;" readonly="readonly"/>
+				</td> 
+				<td><input type="text" name="app_url" id="app_url" style="width:200px;"/></td>
+				<td>
+				 <select name="db_name" id="db_name" style="width:150px;">
+				 <option ng-repeat = "db in cmpdb">	{{ db.desktop_db_name}}</option>
+               	 </select>
+               	
+               	  
+				</td>
+				<td><select name="biz_admin_id" id="biz_admin_id" >
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">banesh@bizprout.com</option>
+				<option value="2">rishwanth@bizprout.com</option>
+				<option value="3">rekha@bizprout.com</option>
+				</select>
+				</td>
+				<td><input type="date" name="active_from" id="active_from" value="01-Apr-2016" /></td>
+				<td><input type="date" name="active_to" id="active_to" value="31-mar-2017" /></td>
+				<td><select name="mandate_mac" id="mandate_mac">
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">Biz-User</option>
+				<option value="2">Client-user</option>
+				<option value="3">Both</option>
+				</select></td>
+				<td><select name="mandate_ip" id="mandate_ip">
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">Biz-User</option>
+				<option value="2">Client-user</option>
+				<option value="3">Both</option>
+				</select></td>
+				<td><select multiple name="under_main" id="under_main">
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">Client-Admin</option>
+				<option value="2">Client-user</option>
+				<option value="3">Biz-Admin</option>
+				<option value="4">Super-Admin</option>
+				</select></td>
+				<td><input type="checkbox" name="c1" id="c1" /></td>
+			</tr>
+		
+			<!-- <tr>	
+				<td><input type="text" name="app_usr_id" id="app_usr_id" value="PAYROLL" style="width:200px;"/></td>
+				<td><input type="text" name="app_usr_id" id="app_usr_id" value="http://www.kz.greythr.com" style="width:200px;"/></td>
+				<td>
+				
+				<span ng-app = "dbsData" ng-controller = "dbsCtrl"> 
+				 <select name="db_name" id="db_name" style="width:150px;">
+				 <option ng-repeat = "db in cmpdb">	{{ db.desktop_db_name}}</option>
+               	</select>
+               	 </span> 
+               	  
+				</td>
+				<td><select name="biz_email" id="biz_email" >
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">banesh@bizprout.com</option>
+				<option value="2">rishwanth@bizprout.com</option>
+				<option value="3">rekha@bizprout.com</option>
+				</select>
+				</td>
+				<td><input type="date" name="active_from" id="active_from" value="01-Apr-2016" /></td>
+				<td><input type="date" name="active_to" id="active_to" value="31-mar-2017" /></td>
+				<td><select name="mandate_mac" id="mandate_mac">
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">Biz-User</option>
+				<option value="2">Client-user</option>
+				<option value="3">Both</option>
+				</select></td>
+				<td><select name="mandate_ip" id="mandate_ip">
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">Biz-User</option>
+				<option value="2">Client-user</option>
+				<option value="3">Both</option>
+				</select></td>
+				<td><select multiple name="under_main" id="under_main">
+				<option value="" selected="yes">--Select--</option>
+				<option value="1">Client-Admin</option>
+				<option value="2">Client-user</option>
+				<option value="3">Biz-Admin</option>
+				<option value="4">Super-Admin</option>
+				</select></td>
+				<td><input type="checkbox" name="c1" id="c1" /></td>
+			</tr> -->
+		</table>
+		</div>
+		<br><br>
+		<input type="submit" id="appsubmit" value="Submit" />
+		<input type="reset" value="Reset" />
+	
+		</form>
+		</div>
+		
+	
+<!-- 	
+<div ng-app = "myApp" ng-controller = "myCtrl">
+      
+         <table border="1">
+            <tr>
+               <th>Company Code</th>
+               <th>Company Name</th>
+               <th>Database Name</th>
+            </tr>
+         
+            <tr ng-repeat = "cmp in cmpdata">
+               <td>{{ cmp.company_code }}</td>
+               <td>{{ cmp.company_name }}</td>
+               <td>{{ cmp.db_name }}</td>
+            </tr>
+         </table>
+    </div>
+	 -->
+      
+</body>
+</html>

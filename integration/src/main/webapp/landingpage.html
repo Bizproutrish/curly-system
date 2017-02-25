@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Bizprout</title>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<!-- <script> 
+// var app=angular.module('bizapp', []);
+
+// app.controller('landcont', function($scope, $http){
+// 	$http({
+// 	    method	: "GET",
+// 	    url		: "webapi/company/apps"
+// 	  }).then(function mySucces(response) {
+// 		  $scope.records= response.data;
+// 		  }, function myError(response) {
+// 	      $scope.apps= response.statusText;
+// 	  });
+//     });
+    
+    
+</script>-->
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+/* $(document).ready(function(){
+	  
+	$.ajax({
+		method: "GET",
+		url: "webapi/login/usermap",
+		data:{"user":"rishwanth@bizprout.com"},
+		dataType: 'json',
+		success:function(res){
+			alert(res);
+		}		
+	});
+//       e.preventDefault();
+//     $.ajax({type: "POST",
+//             url: "/imball-reagens/public/shareitem",
+//             data: { id: $("#Shareitem").val(), access_token: $("#access_token").val() },
+//             success:function(result){
+//       $("#sharelink").html(result);
+//     }});
+}); */
+</script>
+
+
+
+<script>
+var app = angular.module('bizapp', []);
+
+app.controller('landcont', function($location, $scope, $http, $window){
+	  
+	$scope.user = $location.search().username;
+	  
+	  $http({
+		    method	: "GET",
+		    url		: "webapi/company/apps"
+		  }).then(function mySucces(response) {
+			  
+			  $scope.records= response.data;
+			 		  	  
+			  }, function myError(response) {
+		      $scope.apps= response.statusText;
+		  });
+	  
+	  
+	  
+	$scope.redir=function(event){			  
+		
+		  $http({
+			    method	: "GET",
+			    url		: "webapi/login/usermap/"+$scope.user
+			  }).then(function (res) {
+				  
+				  //alert(JSON.stringify(res.data));
+				  
+				  var uri= 'http://192.168.3.99:8000/bizlms/bizint.php?app='+event.target.id+'&user='+res.data[0].app_username;//+encodeURIComponent(query);
+					
+				  $window.open(uri, "_self");
+				 
+			  		
+			  }, function (res) {
+			      $scope.apps= res.statusText;
+			  });
+	  }		
+});
+	  
+app.controller('tdappctrl', function($scope, $http){
+	  //$scope.tasks = [{id:1,'name':'test1'}, {id:2,'name':'test2'}, {id:3,'name':'test3'}];
+	  //alert("hi");
+	  $http({
+		    method	: "GET",
+		    url		: "webapi/login/landing"
+		  })
+});
+
+
+
+    
+//    $scope.removeTask = function(taskId){
+//     alert("Task Id is "+taskId);
+
+//    $http({
+// 	    method	: "GET",
+// 	    url		: "webapi/login/landing"
+// 	  }).then(function mySucces(response) {
+		  
+// 		  }, function myError(response) {
+// 	      $scope.apps= response.statusText;
+// 	  });
+//    };  
+// });
+
+</script>
+<!--  /*    //$scope.goLogin = function(event) { -->
+<!--     	$scope.goLogin = function(){ -->
+<!--     		location.href = 'www.google.co.in'; -->
+<!--     		}; -->
+    	
+<!--     	/* alert(event); -->
+<!--     	 $scope.$location = $location; -->
+<!--     	$location.url('www.google.co.in',_self); -->
+<!--      */ -->
+<!--     //    $location.url('http://test.com/login.jsp?un='+ $scope.form.username +'&pw="+ $scope.form.password); -->
+<!--     /* }; */ -->
+<!-- /* }) */ -->
+
+
+        
+<!-- $(function(){ -->
+	
+
+<!-- $('.appid').click(function(){ -->
+<!-- 	alert ("hi"); -->
+	
+<!--     /* var book_id = $(this).parent().data('id'); -->
+
+<!--     $.ajax -->
+<!--     ({  -->
+<!--         url: 'reservebook.php', -->
+<!--         data: {"bookID": book_id}, -->
+<!--         type: 'post', -->
+<!--         success: function(result) -->
+<!--         { -->
+<!--             $('.modal-box').text(result).fadeIn(700, function()  -->
+<!--             { -->
+<!--                 setTimeout(function()  -->
+<!--                 { -->
+<!--                     $('.modal-box').fadeOut(); -->
+<!--                 }, 2000); -->
+<!--             }); -->
+<!--         } -->
+<!--     });  -->
+<!-- }); -->
+<!-- }); -->
+
+<!-- <script>
+		var app=angular.module('bizapp', []);
+		
+		app.controller('landcont', function($scope, $http, $window){
+			
+			angular.element(document).ready(function(){			
+				$http({
+					method	: 'GET',
+					url 	: "webapi/company/apps"
+					//url		: 'REST/Login/getapp'
+				}).success(function(data, status, headers, config){
+						$scope.records=data;
+						$scope.slno=0;
+				
+ 					$scope.redir=function(event){
+ 							alert(event);
+							$http({
+								//method: 'POST',
+								url: "www.google.co.in"	// 'http://localhost:8080/bizlms/bizint.php'
+								
+							}).success(function(data, status, headers, config){
+								//alert(data);
+
+								var uri= "www.google.co.in"	// 'http://localhost:8080/bizlms/bizint.php?app='+event.target.id;//+encodeURIComponent(query);
+								
+								$window.open(uri, "_self");
+								
+								/* $http({
+								    method: 'POST',
+								    url: 'http://localhost:8080/bizlms/bizint.php',
+								    data: '{id:1}',
+								    headers: {
+								        'Content-Type': 'application/json; charset=utf-8'
+								    }
+								  }).success(function (data) {
+									  alert(data);
+								    $location.path('http://localhost:8080/bizlms/bizint.php');
+								  }); */
+							});
+						}
+						
+				}).error(function(data, status, headers, config){
+					// called asynchronously if an error occurs
+                    // or server returns response with an error status.
+				}); 
+			});			
+		 });
+	</script> -->
+</head>
+<body>
+	<div ng-app="bizapp" ng-controller="landcont">
+		<center>
+			<h3>Welcome {{user}} to the Landing Page!</h3>
+		</center>
+
+		<center>The Applications Mapped to you are:</center>
+		<br>
+		<table border="1" align="center">
+			<tr>
+				<td>Sl. No.</td>
+				<td>App Name</td>
+			</tr>
+			<tr ng-repeat="x in records | orderBy:'app_Id' ">
+				<td>{{x.app_Id}}</td>
+				<td ng-controller="tdappctrl"><input type="button" ng-click="redir($event)" id="{{x.app_Name}}"  class="appid" value="{{x.app_Name}}" style="text-decoration: none;" /></td>
+				
+			</tr>
+			<!-- <tr>
+				<td>{{$index+1}}</td>
+				<td><input type="button" ng-click="goLogin(LMS)"
+					style="text-decoration: none;" id="{{value.app_Id}}" value="LMS" /></td>
+			</tr> -->
+		</table>
+
+
+	</div>
+
+
+
+		<!--         <div ng-controller="landcont">
+        The Applications Mapped to you are:
+        <table align="center" border="1">
+		  <tr>
+		    <td>Sl. No.</td>
+		    <td>App Name</td>
+		  </tr>
+		  <tr>
+		  <td>1</td>
+		  <td><a href="https://epacc-c2-app.bizprout.co.in/epacc_hrms/">LMS</a></td>
+		  </tr>
+		</table>
+        
+        </div> -->
+
+
+
+</body>
+</html>
