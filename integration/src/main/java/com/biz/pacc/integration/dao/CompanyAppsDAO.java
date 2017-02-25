@@ -18,6 +18,7 @@ public class CompanyAppsDAO {
     }
     
     private void addEmployee(Session session, CompanyApps capps){
+    	//TODO add loggers
     	CompanyApps cmpApp= new CompanyApps();
     	cmpApp.setApp_id(capps.getApp_id());
     	cmpApp.setApp_url(capps.getApp_url());
